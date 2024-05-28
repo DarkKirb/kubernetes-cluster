@@ -1,6 +1,6 @@
 apiVersion: v2
 name: longhorn
-description: Customized version of kyverno with my own policies
+description: Customized version of longhorn
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -23,6 +23,6 @@ version: 0.1.0
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
 dependencies:
-  - name: longhorn
+  - name: kyverno
     version: "*"
-    repository: "https://charts.longhorn.io"
+    repository: "https://kyverno.github.io/kyverno/"
