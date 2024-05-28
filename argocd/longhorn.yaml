@@ -20,7 +20,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "https://github.com/longhorn/charts"
+    repoURL: "https://github.com/DarkKirb/kubernetes-cluster"
     path: charts/longhorn
     targetRevision: HEAD
   destination:
