@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+spec:
+  destination:
+    name: ''
+    namespace: 'monitoring'
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: charts/loki-distributed
+    repoURL: 'https://github.com/grafana/helm-charts'
+    targetRevision: HEAD
+    helm:
+      values: |
+        loki:
+          storage:
+            bucketNames:
+              chunks: loki-chir-rs-chunks
+              ruler: loki-chir-rs-ruler
+              admin: loki-chir-rs-admin
+            type: s3
+            s3:
+              endpoint: ams1.vultrobjects.com
+              region: ams1
+              accessKeyId: ${S3_ACCESS_KEY_ID}
+              secretAccessKey: ${S3_SECRET_ACCESS_KEY}
+              s3ForcePathStyle: false
+              insecure: false
+        backend:
+          autoscaling:
+            enabled: true
+          extraArgs: ["-config.expand-env=true"]
+          extraEnvFrom:
+            - secretRef:
+                name: loki-s3
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
